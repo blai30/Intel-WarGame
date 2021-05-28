@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using WarGame;
 
 Console.WriteLine(DateTime.UtcNow.ToString("R"));
@@ -9,3 +9,11 @@ Random random = new Random(Guid.NewGuid().GetHashCode());
 
 Game game = new Game(random, "Brian", "Rodney");
 game.Start();
+
+while (game.IsRunning)
+{
+    game.StepTurn();
+}
+
+Console.WriteLine("Game will now end.");
+Console.Read();

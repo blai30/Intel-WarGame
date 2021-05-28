@@ -5,39 +5,51 @@ namespace WarGame
 {
     public class Game
     {
-        private List<Player> _players;
+        private Player _player1;
+        private Player _player2;
+        private Dealer _dealer;
 
         /// <summary>
-        ///     Create a new game and define the number of players.
+        ///     Create a new game.
         /// </summary>
-        /// <param name="playerCount">Number of players participating.</param>
-        public Game(int playerCount = 2)
+        /// <param name="random">Random object.</param>
+        public Game(Random random)
         {
-            _players = new List<Player>(playerCount);
-            for (int i = 0; i < playerCount; i++)
-            {
-                var player = new Player();
-                _players.Add(player);
-            }
+            _player1 = new Player();
+            _player2 = new Player();
+            _dealer = new Dealer(random);
         }
 
-        public void Start(Random random)
+        /// <summary>
+        ///     Start the game and run the game loop.
+        /// </summary>
+        public void Start()
         {
-            Console.WriteLine("Starting game");
+            Console.WriteLine("Starting game of war.");
 
-            Dealer dealer = new Dealer(random);
-            dealer.Initialize();
+            _dealer.Initialize();
 
-            int initialDeckSize = 52 / _players.Count;
-            foreach (Player player in _players)
+            for (int i = 0; i < _dealer.Cards.Count / 2; i++)
             {
-                for (int i = 0; i < initialDeckSize; i++)
-                {
-                    player.Deck.Enqueue(dealer.Cards.Dequeue());
-                }
+                _player1.Deck.Enqueue(_dealer.Cards.Dequeue());
+                _player2.Deck.Enqueue(_dealer.Cards.Dequeue());
             }
 
-            Console.WriteLine("Dealt");
+            StepTurn();
+        }
+
+        private void StepTurn()
+        {
+            Queue<Card> board = new Queue<Card>();
+
+            Card card1 = _player1.Deck.Dequeue();
+            Card card2 = _player2.Deck.Dequeue();
+
+            board.Enqueue(card1);
+            board.Enqueue(card2);
+
+            Console.WriteLine($"Player 1 plays {card1}.");
+            Console.WriteLine($"Player 2 plays {card2}.");
         }
     }
 }

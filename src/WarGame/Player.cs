@@ -4,6 +4,6 @@ namespace WarGame
 {
     public class Player
     {
-        public Queue<Card> Deck = new(52);
+        public Queue<Card> Deck = new();
     }
 }

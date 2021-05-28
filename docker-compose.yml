@@ -1,0 +1,9 @@
+
+version: '3.4'
+
+services:
+  wargame:
+    image: wargame
+    build:
+      context: .
+      dockerfile: WarGame/Dockerfile

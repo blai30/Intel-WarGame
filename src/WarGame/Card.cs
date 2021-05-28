@@ -30,5 +30,11 @@
     /// </summary>
     /// <param name="Suit"></param>
     /// <param name="Rank"></param>
-    public record Card(Suit Suit, Rank Rank);
+    public record Card(Suit Suit, Rank Rank)
+    {
+        public override string ToString()
+        {
+            return $"{Rank.ToString()} of {Suit.ToString()}";
+        }
+    }
 }

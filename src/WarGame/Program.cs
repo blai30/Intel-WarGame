@@ -5,7 +5,7 @@ Console.WriteLine(DateTime.UtcNow.ToString("R"));
 Console.WriteLine(Environment.ProcessId);
 
 // Initialize random object with seed generated from GUID.
-Random random = new Random(new Guid().GetHashCode());
+Random random = new Random(Guid.NewGuid().GetHashCode());
 
-Game game = new Game(2);
-game.Start(random);
+Game game = new Game(random);
+game.Start();

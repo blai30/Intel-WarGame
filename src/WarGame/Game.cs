@@ -34,8 +34,9 @@ namespace WarGame
             Console.WriteLine($"Starting game of war between players {_player1.Name} and {_player2.Name}.");
 
             _dealer.Initialize();
+            int initialDeckSize = _dealer.Cards.Count / 2;
 
-            for (int i = 0; i < _dealer.Cards.Count / 2; i++)
+            for (int i = 0; i < initialDeckSize; i++)
             {
                 _player1.Deck.Enqueue(_dealer.Cards.Dequeue());
                 _player2.Deck.Enqueue(_dealer.Cards.Dequeue());

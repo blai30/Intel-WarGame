@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace WarGame
@@ -13,10 +13,10 @@ namespace WarGame
         ///     Create a new game.
         /// </summary>
         /// <param name="random">Random object.</param>
-        public Game(Random random)
+        public Game(Random random, string name1, string name2)
         {
-            _player1 = new Player();
-            _player2 = new Player();
+            _player1 = new Player(name1);
+            _player2 = new Player(name2);
             _dealer = new Dealer(random);
         }
 
@@ -25,7 +25,7 @@ namespace WarGame
         /// </summary>
         public void Start()
         {
-            Console.WriteLine("Starting game of war.");
+            Console.WriteLine($"Starting game of war between players {_player1.Name} and {_player2.Name}.");
 
             _dealer.Initialize();
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace WarGame
@@ -34,6 +34,7 @@ namespace WarGame
             Console.WriteLine($"Starting game of war between players {_player1.Name} and {_player2.Name}.");
 
             _dealer.Initialize();
+            _dealer.Shuffle();
             int initialDeckSize = _dealer.Cards.Count / 2;
 
             for (int i = 0; i < initialDeckSize; i++)

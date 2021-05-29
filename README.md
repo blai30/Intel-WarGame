@@ -1,10 +1,14 @@
 # Intel-WarGame
 Game rules reference: [Wikipedia](https://en.wikipedia.org/wiki/War_(card_game))
 
+This project was created for a programming assignment given by Intel as part of the interview process. I chose to use C# as the language after being given the option to choose between C# or Python.
+
+Author: Brian Lai
+
 ## Build and run the program
 
 ### Setup
-Download and install the .NET 5 SDK
+Download and install the .NET 5 SDK for your platform.
 https://dotnet.microsoft.com/download/dotnet/5.0
 
 ### Run the release build (recommended)
@@ -20,7 +24,7 @@ From root directory with `.sln` file.
 dotnet run --project ./src/WarGame/WarGame.csproj
 ```
 
-## Docker
+### Docker
 From root directory with `Dockerfile` file.
 ```shell
 docker build . -t wargame

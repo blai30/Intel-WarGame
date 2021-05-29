@@ -7,7 +7,13 @@ Console.WriteLine(Environment.ProcessId);
 // Initialize random object with seed generated from GUID.
 Random random = new Random(Guid.NewGuid().GetHashCode());
 
-Game game = new Game(random, "Brian", "Rodney");
+Console.Write("Enter name for player 1: ");
+string name1 = Console.ReadLine();
+
+Console.Write("Enter name for player 2: ");
+string name2 = Console.ReadLine();
+
+Game game = new Game(random, name1, name2);
 game.Start();
 game.DetermineWinner();
 

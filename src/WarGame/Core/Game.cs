@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using WarGame.Entities;
 
-namespace WarGame
+namespace WarGame.Core
 {
     public class Game
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-using WarGame;
+using WarGame.Core;
 
 // Initialize random object with seed generated from GUID.
 Random random = new Random(Guid.NewGuid().GetHashCode());

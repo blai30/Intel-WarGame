@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WarGame
+namespace WarGame.Entities
 {
     public class Player
     {

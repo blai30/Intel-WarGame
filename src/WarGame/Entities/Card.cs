@@ -1,4 +1,4 @@
-﻿namespace WarGame
+﻿namespace WarGame.Entities
 {
     public enum Suit
     {

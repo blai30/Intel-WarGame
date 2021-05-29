@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using WarGame.Entities;
 
-namespace WarGame
+namespace WarGame.Core
 {
     /// <summary>
     ///     Represents a collection of cards with the ability to shuffle.

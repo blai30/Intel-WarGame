@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace WarGame
@@ -7,11 +7,12 @@ namespace WarGame
     {
         public bool IsRunning => _player1.Deck.Count > 0 && _player2.Deck.Count > 0;
 
-        private Dealer _dealer;
-        private Player _player1;
-        private Player _player2;
+        private readonly Dealer _dealer;
+        private readonly Player _player1;
+        private readonly Player _player2;
+        private readonly Queue<Card> _board = new();
+
         private uint _currentTurn = 1;
-        private Queue<Card> _board = new();
 
         /// <summary>
         ///     Create a new game.
@@ -47,26 +48,36 @@ namespace WarGame
             {
                 StepTurn();
             }
-
-            DetermineWinner();
-            Console.WriteLine("Game will now end.");
         }
 
-        private void DetermineWinner()
+        /// <summary>
+        ///     Check deck count of both players. No winner is selected if both players still have cards.
+        ///     The player with remaining cards is selected as the winner.
+        /// </summary>
+        public void DetermineWinner()
         {
-            if (_player1.Deck.Count > 0 && _player2.Deck.Count <= 0)
+            if (_player1.Deck.Count > 0 && _player2.Deck.Count > 0)
+            {
+                return;
+            }
+
+            if (_player1.Deck.Count > _player2.Deck.Count)
             {
                 Console.WriteLine($"{_player1.Name} takes the victory!");
             }
-            else if (_player1.Deck.Count <= 0 && _player2.Deck.Count > 0)
+            else if (_player1.Deck.Count < _player2.Deck.Count)
             {
                 Console.WriteLine($"{_player2.Name} takes the victory!");
             }
         }
 
+        /// <summary>
+        ///     Both players take a turn in the game and play a card then check the cards.
+        /// </summary>
         private void StepTurn()
         {
-            if (_currentTurn >= 2000)
+            // Corner case for infinite game where neither player wins.
+            if (_currentTurn > 2000)
             {
                 Console.WriteLine("Infinite game detected, ending...");
                 _player1.Deck.Clear();
@@ -78,7 +89,6 @@ namespace WarGame
 
             Card card1 = _player1.Deck.Dequeue();
             Card card2 = _player2.Deck.Dequeue();
-
             PlayCards(card1, card2);
             CheckCards(card1, card2);
 
@@ -88,6 +98,11 @@ namespace WarGame
             _currentTurn++;
         }
 
+        /// <summary>
+        ///     Both players play a card on the board.
+        /// </summary>
+        /// <param name="card1">Player 1 card.</param>
+        /// <param name="card2">Player 2 card.</param>
         private void PlayCards(Card card1, Card card2)
         {
             _board.Enqueue(card1);
@@ -97,39 +112,47 @@ namespace WarGame
             Console.WriteLine($"{_player2.Name} plays {card2}.");
         }
 
+        /// <summary>
+        ///     Check the rank of both cards. Declare war if the rank is equal. Otherwise, the higher ranking card wins the turn.
+        /// </summary>
+        /// <param name="card1">Player 1 card.</param>
+        /// <param name="card2">Player 2 card.</param>
         private void CheckCards(Card card1, Card card2)
         {
+            // Continue declaring war until both cards are no longer equal or a player no longer has enough cards.
             while (card1.Rank == card2.Rank)
             {
                 Console.WriteLine("Declaring war.");
 
-                if (_player1.Deck.Count < 4)
+                if (ContinueWar() is false)
                 {
-                    Console.WriteLine($"{_player1.Name} does not have enough cards!");
-                    _player1.Deck.Clear();
-                    return;
-                }
-
-                if (_player2.Deck.Count < 4)
-                {
-                    Console.WriteLine($"{_player2.Name} does not have enough cards!");
-                    _player2.Deck.Clear();
                     return;
                 }
 
                 Console.WriteLine("Both players place 3 cards face down.");
-                for (int i = 0; i < 3; i++)
-                {
-                    _board.Enqueue(_player1.Deck.Dequeue());
-                    _board.Enqueue(_player2.Deck.Dequeue());
-                }
+                _board.Enqueue(_player1.Deck.Dequeue());
+                _board.Enqueue(_player2.Deck.Dequeue());
+                _board.Enqueue(_player1.Deck.Dequeue());
+                _board.Enqueue(_player2.Deck.Dequeue());
+                _board.Enqueue(_player1.Deck.Dequeue());
+                _board.Enqueue(_player2.Deck.Dequeue());
 
+                // The fourth card is played face up.
                 card1 = _player1.Deck.Dequeue();
                 card2 = _player2.Deck.Dequeue();
-
                 PlayCards(card1, card2);
             }
 
+            EvaluateCardRank(card1, card2);
+        }
+
+        /// <summary>
+        ///     Compare the rank of the cards and the player with the higher ranking card takes all cards on the board.
+        /// </summary>
+        /// <param name="card1">Player 1 card.</param>
+        /// <param name="card2">Player 2 card.</param>
+        private void EvaluateCardRank(Card card1, Card card2)
+        {
             if (card1.Rank > card2.Rank)
             {
                 // Player 1 card ranks higher and takes the board.
@@ -150,6 +173,29 @@ namespace WarGame
                     _player2.Deck.Enqueue(card);
                 }
             }
+        }
+
+        /// <summary>
+        ///     Check if both players have enough cards to declare war.
+        /// </summary>
+        /// <returns>Both players have enough cards for war.</returns>
+        private bool ContinueWar()
+        {
+            if (_player1.Deck.Count < 4)
+            {
+                Console.WriteLine($"{_player1.Name} does not have enough cards!");
+                _player1.Deck.Clear();
+                return false;
+            }
+
+            if (_player2.Deck.Count < 4)
+            {
+                Console.WriteLine($"{_player2.Name} does not have enough cards!");
+                _player2.Deck.Clear();
+                return false;
+            }
+
+            return true;
         }
     }
 }

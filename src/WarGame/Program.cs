@@ -9,6 +9,6 @@ Random random = new Random(Guid.NewGuid().GetHashCode());
 
 Game game = new Game(random, "Brian", "Rodney");
 game.Start();
+game.DetermineWinner();
 
-// Prevent auto-close window on program end, wait for key press instead.
-Console.ReadKey();
+Console.WriteLine("Game will now end.");

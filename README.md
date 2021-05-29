@@ -21,9 +21,10 @@ dotnet run --project ./src/WarGame/WarGame.csproj
 ```
 
 ## Docker
-From root directory with `docker-compose.yml` file.
+From root directory with `Dockerfile` file.
 ```shell
-docker compose up
+docker build . -t wargame
+docker run -it wargame
 ```
 
 ## Notes

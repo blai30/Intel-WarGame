@@ -8,10 +8,10 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["WarGame/WarGame.csproj", "WarGame/"]
-RUN dotnet restore "WarGame/WarGame.csproj"
+COPY ["src/WarGame/WarGame.csproj", "src/WarGame/"]
+RUN dotnet restore "src/WarGame/WarGame.csproj"
 COPY . .
-WORKDIR "/src/WarGame"
+WORKDIR "/src/src/WarGame"
 RUN dotnet build "WarGame.csproj" -c Release -o /app/build
 
 FROM build AS publish
